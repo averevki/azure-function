@@ -5,7 +5,6 @@ import json
 # import msal
 # import requests
 import azure.functions as func
-import azure.servicebus as servicebus
 
 
 app = func.FunctionApp()
@@ -60,7 +59,6 @@ app = func.FunctionApp()
 #         logging.error(f"Email failed: {response.text}")
 
 
-@app.function_name(name="servicebus_trigger")
 @app.service_bus_queue_trigger(arg_name="azservicebus", queue_name="bussin", connection="ServiceBus")
-def servicebus_trigger(azservicebus: servicebus.ServiceBusReceivedMessage):
-    logging.info(f"Python ServiceBus Queue trigger processed a message: {azservicebus.body}")
+def from_servicebus(azservicebus: func.ServiceBusMessage):
+    logging.info('Python ServiceBus Queue trigger processed a message: %s', azservicebus.get_body().decode('utf-8'))
