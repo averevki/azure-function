@@ -7,7 +7,6 @@ import json
 import azure.functions as func
 
 
-SERVICE_BUS_CONN_STR = os.getenv("SERVICE_BUS_CONN_STR")
 app = func.FunctionApp()
 
 
@@ -60,6 +59,6 @@ app = func.FunctionApp()
 #         logging.error(f"Email failed: {response.text}")
 
 
-@app.service_bus_queue_trigger(arg_name="azservicebus", queue_name="bussin", connection=SERVICE_BUS_CONN_STR)
+@app.service_bus_queue_trigger(arg_name="azservicebus", queue_name="bussin", connection="ServiceBus")
 def servicebus_trigger(azservicebus: func.ServiceBusMessage):
     logging.info('Python ServiceBus Queue trigger processed a message: %s', azservicebus.get_body().decode('utf-8'))
